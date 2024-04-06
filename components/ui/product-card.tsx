@@ -6,21 +6,40 @@ import IconButton from "@/components/ui/icon-button";
 import { BriefcaseBusiness, Expand } from "lucide-react";
 import Currency from "@/components/ui/currency";
 import { useRouter } from "next/navigation";
+import { MouseEventHandler } from "react";
+import usePreviewModal from "@/hooks/use-preview-modal";
+import useCart from "@/hooks/use-cart";
 
 interface ProductCard {
   data: Product;
 }
 
 const ProductCard: React.FC<ProductCard> = ({ data }) => {
+  const cart = useCart();
+  const previewModal = usePreviewModal();
+  const router = useRouter();
 
-  const router = useRouter()
+  const handleClick = () => {
+    router.push(`/product/${data?.product_id}`);
+  };
 
-  const handleClick = () =>{
-    router.push(`/product/${data?.product_id}`)
-  }
+  const onPreview: MouseEventHandler<HTMLButtonElement> = (event) => {
+    event.stopPropagation(); //Overwrite the on click event of the parent element
+
+    previewModal.onOpen(data);
+  };
+
+  const onAddToCart: MouseEventHandler<HTMLButtonElement> = (event) => {
+    event.stopPropagation(); //Overwrite the on click event of the parent element
+
+    cart.addItem(data);
+  };
 
   return (
-    <div onClick={handleClick} className="bg-white group dark:bg-[#0D1A26] cursor-pointer rounded-xl border p-3 space-y-4">
+    <div
+      onClick={handleClick}
+      className="bg-white group dark:bg-[#0D1A26] cursor-pointer rounded-xl border p-3 space-y-4"
+    >
       {/* Images and Actions */}
       <div className="aspect-square rounded-xl bg-gray-100 dark:bg-[#132d46] relative">
         <Image
@@ -32,7 +51,7 @@ const ProductCard: React.FC<ProductCard> = ({ data }) => {
         <div className="opacity-0 group-hover:opacity-100 transition absolute w-full px-6 bottom-5">
           <div className="flex gap-x-6 justify-center">
             <IconButton
-              onClick={() => {}}
+              onClick={onPreview}
               icon={
                 <Expand
                   size={20}
@@ -43,7 +62,7 @@ const ProductCard: React.FC<ProductCard> = ({ data }) => {
               }
             />
             <IconButton
-              onClick={() => {}}
+              onClick={onAddToCart}
               icon={
                 <BriefcaseBusiness
                   size={20}

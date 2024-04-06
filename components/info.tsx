@@ -11,24 +11,24 @@ interface InfoProps {
 const Info: React.FC<InfoProps> = ({ data }) => {
   return (
     <div>
-      <h1 className="text-3xl font-bold dark:text-white text-[#252440]">
+      <h1 className="text-3xl font-bold dark:text-white text-black">
         {data?.name}
       </h1>
       <div className="mt-3 flex items-end justify-between">
-        <p className="text-2xl dark:text-white text-[#252440]">
+        <p className="text-2xl dark:text-white text-black">
           <Currency value={data?.price} />
         </p>
       </div>
       <hr className="my-4" />
       <div className="flex flex-col gap-y-6">
         <div className="flex items-center gap-x-4">
-          <h3 className="font-semibold dark:text-white text-[#252440]">
+          <h3 className="font-semibold dark:text-white text-black">
             Size:{" "}
           </h3>
-          <div>{data?.size?.name}</div>
+          <div className="text-black dark:text-white">{data?.size?.name}</div>
         </div>
         <div className="flex items-center gap-x-4">
-          <h3 className="font-semibold dark:text-white text-[#252440]">
+          <h3 className="font-semibold dark:text-white text-black">
             Color:{" "}
           </h3>
           <div
