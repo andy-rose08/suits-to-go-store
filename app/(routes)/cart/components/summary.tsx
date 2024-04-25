@@ -19,23 +19,25 @@ const Summary = () => {
   }, 0);
 
   const onCheckout = async () => {
-    const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {
-      product_ids: items.map((item) => item.product_id),
-    })
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/checkout`,
+      {
+        product_ids: items.map((item) => item.product_id),
+      }
+    );
     window.location = response.data.url;
-  }
+  };
 
   useEffect(() => {
-    if(searchParams.get("success")) {
+    if (searchParams.get("success")) {
       toast.success("Payment Completed!");
       removeAll();
     }
 
-    if(searchParams.get("canceled")) {
+    if (searchParams.get("canceled")) {
       toast.error("Something went wrong!");
     }
-
-  }, [searchParams, removeAll])
+  }, [searchParams, removeAll]);
 
   return (
     <div
@@ -54,7 +56,13 @@ const Summary = () => {
           <Currency value={totalPrice} />
         </div>
       </div>
-      <Button onClick={onCheckout} className="w-full mt-6">Checkout</Button>
+      <Button
+        disabled={items.length === 0}
+        onClick={onCheckout}
+        className="w-full mt-6"
+      >
+        Checkout
+      </Button>
     </div>
   );
 };
